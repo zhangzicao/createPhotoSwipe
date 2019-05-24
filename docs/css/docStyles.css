@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+/**
+ * 该文件是demo文档的相关样式
+ * **/
+* {padding: 0;margin: 0;}
+body{ font-size: 16px ;background: #fff;padding: 20px;}
+h1{font-size:26px;padding: 10px 0;margin-top: 15px;}
+h2{font-size:24px;padding: 7px 0;margin-top: 15px;}
+h3{font-size:16px;padding: 5px 0;margin-top: 15px;}
+h4{font-size:16px;padding: 0 0;margin-top: 15px;}
+p{line-height: 1.8;margin-bottom: 14px;}
+input,select,button{height: 36px;line-height: 22px;padding: 5px 7px;border: 1px solid #bbb;box-sizing: border-box;vertical-align: middle;}
+pre{display: block; background: #f6f6f6;padding: 15px;margin: 15px;border-radius: 5px;font-size: 14px;border: 1px solid #ccc;line-height: 1.4;}
+table{table-layout: auto;border-collapse: collapse;margin-top: 10px;}
+table td,table th{border: 1px solid #ccc;padding: 5px 7px;background: #fafafa}
