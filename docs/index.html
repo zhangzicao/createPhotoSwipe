@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0,maximum-scale=1,user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="renderer" content="webkit|ie-stand">
+  <title>图片测试</title>
+  <link rel="stylesheet" type="text/css" href="css/H-ui.reset.css">
+  <link rel="stylesheet" type="text/css" href="css/docStyles.css">
+  <link rel="stylesheet" type="text/css" href="libs/PhotoSwipe/photoswipe.css">
+  <link rel="stylesheet" type="text/css" href="libs/PhotoSwipe/default-skin/default-skin.css">
+  <link rel="stylesheet" type="text/css" href="../src/createPhotoSwipe.css">
+  <style>
+    h1{clear: both;font-size:20px;padding: 2px 10px;}
+    p{clear: both;font-size:16px;padding: 2px 10px;}
+  </style>
+</head>
+
+<body>
+  <h1>创建图廊 createPhotoSwipe</h1>
+  <p>该对插件photoswipe做了封装，创建并打开画廊，退出画廊时自动销毁，支持了旋转、不设置data-size</p>
+
+  <h3>初始化</h3>
+  <pre>$('.photo-gallery').on('click','.photo-gallery__figure',function (e) {
+  e.preventDefault();
+  createPhotoSwipe(e.currentTarget);
+});</pre>
+
+  <!-- 原图大小data-size可省略，为了更好的体验，建议加上 -->
+  <!-- 使用photo-gallery--responsed类名可以使得图片项宽度和高度自适应-->
+  <div class="photo-gallery photo-gallery--responsed" data-pswp-uid="212">
+    <div class="photo-gallery__figure">
+      <a class="photo-gallery__item" href="images/demo1.jpg" data-thumb="images/demo1-thumb.jpg" title="demo1" data-size="1920x1038">
+        <span class="photo-gallery__thumb" style="background-image:url(images/demo1-thumb.jpg);"></span>
+      </a>
+    </div>
+    <div class="photo-gallery__figure">
+      <a class="photo-gallery__item" href="images/demo2.jpg" data-thumb="images/demo2-thumb.jpg" title="demo2">
+        <span class="photo-gallery__thumb" style="background-image:url(images/demo2-thumb.jpg);"></span>
+      </a>
+    </div>
+    <div class="photo-gallery__figure">
+      <a class="photo-gallery__item" href="images/demo3.jpg" data-thumb="images/demo3-thumb.jpg" title="demo3">
+        <span class="photo-gallery__thumb" style="background-image:url(images/demo3-thumb.jpg);"></span>
+      </a>
+    </div>
+    <div class="photo-gallery__figure">
+      <a class="photo-gallery__item" href="images/demo42.png" data-thumb="images/demo42-thumb.png" title="demo4">
+        <span class="photo-gallery__thumb" style="background-image:url(images/demo4-thumb.png);"></span>
+      </a>
+    </div>
+    <div class="photo-gallery__figure">
+      <a class="photo-gallery__item" href="images/demo5.png" data-thumb="images/demo5-thumb.png" title="demo5">
+        <span class="photo-gallery__thumb" style="background-image:url(images/demo5-thumb.jpg);"></span>
+      </a>
+    </div>
+    <div class="photo-gallery__figure">
+      <a class="photo-gallery__item" href="images/demo6.jpg" data-thumb="images/demo6-thumb.jpg" title="demo6">
+        <span class="photo-gallery__thumb" style="background-image:url(images/demo6-thumb.jpg);"></span>
+      </a>
+    </div>
+  </div>
+
+
+  
+  <div class="photo-gallery" data-pswp-uid="2" style="margin-top: 30px;">
+    <h1>原图大小data-size可省略，为了更好的响应速度或体验，建议加上</h1>
+    <h1>demo1</h1>
+    <p>一、大图设置的2种方式：（1）item的data-href。（2）item的href</p>
+    <p>二、大图url来源优先级：（ a[data-href] 大于 a[href]</p>
+
+    <figure class="photo-gallery__figure">
+      <a class="photo-gallery__item" href="images/demo1.jpg" data-href="images/demo1.jpg"  data-title="demo1:大图设置的2种方式">
+        <img class="photo-gallery__img" src="images/demo1-thumb.jpg">
+      </a>
+    </figure>
+
+
+    <h1>demo2</h1>
+    <p>一、缩略图设置的2种方式：（1）background-image设置（cover布局）。（2）img显示</p>
+    <p>二、缩略图url来源优先级：（ [data-thumb] 大于 img[src] ）</p>
+
+    <figure class="photo-gallery__figure">
+      <a class="photo-gallery__item" href="images/demo2.jpg" data-title="demo2:缩略图2种写法"  data-thumb="images/demo2-thumb.jpg">
+        <span class="photo-gallery__thumb" style="background-image:url(images/demo2-thumb.jpg);"></span>
+        <img class="photo-gallery__img" src="images/demo2-thumb.jpg">
+      </a>
+    </figure>
+
+    
+    <h1>demo3</h1>
+    <p>二、图片标题设置的2种方式：（1）设置item的title。 （2）设置item的data-title）
+    <p>一、图片标题来源优先级：（[data-title] 大于 figcaption.caption 大于 [title] ）
+
+    <figure class="photo-gallery__figure">
+      <a class="photo-gallery__item" href="images/demo3.jpg" data-title="demo3:标题的3种写法" title="demo3:标题的3种写法">
+        <span class="photo-gallery__thumb" style="background-image:url(images/demo3-thumb.jpg);"></span>
+      </a>
+      <figcaption itemprop="caption description">demo3:标题的3种写法</figcaption>
+    </figure>
+
+
+    <h1>demo4</h1>
+    <p>纯js调用</p>
+    <button type="button" id="viewBtn">点击预览图片</button>
+    <pre>createPhotoSwipe([
+  {
+    src: "images/demo1.jpg",//大图地址
+    msrc: "images/demo1-thumb.jpg",//缩略图地址
+    title:"图片一"
+  },
+  {
+    src: "images/demo2.jpg",//大图地址
+    msrc: "images/demo2-thumb.jpg",//缩略图地址
+    title:"图片二"
+  }
+]);</pre>
+  
+
+  <table width="1300">
+    <thead>
+    <tr>
+      <th>参数名称</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>描述</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>indexEl</td>
+        <td>{object}</td>
+        <td>-</td>
+        <td>可选（indexEl和items中至少要有一个），当前图片的figure容器对象或选择器，方法内部会解析dom获取画廊所有图片数据和当前index值</td>
+      </tr>
+      <tr>
+        <td>items</td>
+        <td>{array}</td>
+        <td>-</td>
+        <td>可选（indexEl和items中至少要有一个），图廊图片的json数据。如果indexEl也存在时，这些数据会添加到解析出来的数据后面</td>
+      </tr>
+      <tr>
+        <td>items[].src</td>
+        <td>{string}</td>
+        <td>-</td>
+        <td>图片地址</td>
+      </tr>
+      <tr>
+        <td>items[].msrc</td>
+        <td>{string}</td>
+        <td>-</td>
+        <td>缩略图地址</td>
+      </tr>
+      <tr>
+        <td>items[].title</td>
+        <td>{string}</td>
+        <td>-</td>
+        <td>图片标题</td>
+      </tr>
+      <tr>
+        <td>items[].size</td>
+        <td>{string}</td>
+        <td>-</td>
+        <td>图片大小,格式如2100x1240</td>
+      </tr>
+      <tr>
+        <td>option</td>
+        <td>{object}</td>
+        <td></td>
+        <td>选填，支持所有PhotoSwipe的配置参数，另外新增几个参数如下</td>
+      </tr>
+      <tr>
+        <td>option.index</td>
+        <td>{number}</td>
+        <td>-</td>
+        <td>可选，可以设置从第几张图片开始预览</td>
+      </tr>
+      <tr>
+        <td>option.rotatable</td>
+        <td>{boolean}</td>
+        <td>true</td>
+        <td>是否开启旋转</td>
+      </tr>
+      <tr>
+        <td>option.rotateAnim</td>
+        <td>{boolean}</td>
+        <td>true</td>
+        <td>是否开启旋转动画</td>
+      </tr>
+      <tr>
+        <td>option.pswp</td>
+        <td>{string|object}</td>
+        <td></td>
+        <td>要自定义的pswp容器,默认使用插件内部定制好的画廊</td>
+      </tr>
+      <tr>
+        <td>option.containerEl</td>
+        <td>{string}</td>
+        <td>.photo-gallery,[data-pswp-uid]</td>
+        <td>画集容器，用来定位当前所在画集</td>
+      </tr>
+      <tr>
+        <td>option.figureEl</td>
+        <td>{string}</td>
+        <td>.photo-gallery__figure</td>
+        <td>item外层容器</td>
+      </tr>
+      <tr>
+        <td>option.itemEl</td>
+        <td>{string}</td>
+        <td>.photo-gallery__item</td>
+        <td>item容器</td>
+      </tr>
+      </tbody>
+    </table>
+
+  <h3>返回 {object} PhotoSwipe对象</h3>
+
+  <h3>依赖 jquery、photoswipe</h3>
+  </div>
+ 
+  <script type="text/javascript" src="libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="libs/PhotoSwipe/photoswipe-ui-default.min.js"></script>
+  <script type="text/javascript" src="libs/PhotoSwipe/photoswipe.min.js"></script>
+  <script type="text/javascript" src="../src/createPhotoSwipe.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    
+    $('.photo-gallery').on('click','.photo-gallery__figure',function (e) {
+      e.preventDefault();
+      createPhotoSwipe(e.currentTarget);
+    });
+
+    $('#viewBtn').click(function () {
+      createPhotoSwipe([
+        {
+          src: "images/demo1.jpg",//大图地址
+          msrc: "images/demo1-thumb.jpg",//缩略图地址
+          title:"图片一"
+        },
+
+        {
+          src: "images/demo2.jpg",//大图地址
+          msrc: "images/demo2-thumb.jpg",//缩略图地址
+          title:"图片二"
+        }
+      ],{
+        history :false
+      });
+    })
+    
+  })
+  </script>
+</body>
+
+</html>
