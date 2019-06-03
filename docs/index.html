@@ -13,17 +13,19 @@
   <link rel="stylesheet" type="text/css" href="libs/PhotoSwipe/default-skin/default-skin.css">
   <link rel="stylesheet" type="text/css" href="libs/createPhotoSwipe/0.3.1/createPhotoSwipe.css">
   <style>
-    h1{clear: both;font-size:20px;padding: 2px 10px;}
-    p{clear: both;font-size:16px;padding: 2px 10px;}
+    h3,p{clear: both;}
   </style>
 </head>
 
 <body>
-  <h1>创建图廊 createPhotoSwipe</h1>
-  <p>该对插件photoswipe做了封装，创建并打开画廊，退出画廊时自动销毁，支持了旋转、不设置data-size</p>
+  <header class="page-header">
+    <h1 class="page-h1">创建图廊 createPhotoSwipe</h1>
+    <p class="page-p">该对插件photoswipe做了封装，创建并打开画廊，退出画廊时自动销毁，支持了旋转、不设置data-size</p>
+    <a class="page-header-btn" href="https://github.com/zhangzicao/createPhotoSwipe" class="btn">View on GitHub</a>
+  </header>
 
-  <h3>初始化</h3>
-  <pre>$('.photo-gallery').on('click','.photo-gallery__figure',function (e) {
+  <h3 class="page-h3">初始化</h3>
+  <pre class="page-pre">$('.photo-gallery').on('click','.photo-gallery__figure',function (e) {
   e.preventDefault();
   createPhotoSwipe(e.currentTarget);
 });</pre>
@@ -66,10 +68,10 @@
 
   
   <div class="photo-gallery" data-pswp-uid="2" style="margin-top: 30px;">
-    <h1>原图大小data-size可省略，为了更好的响应速度或体验，建议加上</h1>
-    <h1>demo1</h1>
-    <p>一、大图设置的2种方式：（1）item的data-href。（2）item的href</p>
-    <p>二、大图url来源优先级：（ a[data-href] 大于 a[href]</p>
+    <h3 class="page-h3">原图大小data-size可省略，为了更好的响应速度或体验，建议加上</h3>
+    <h3 class="page-h3">demo1</h3>
+    <p class="page-p">一、大图设置的2种方式：（1）item的data-href。（2）item的href</p>
+    <p class="page-p">二、大图url来源优先级：（ a[data-href] 大于 a[href]</p>
 
     <figure class="photo-gallery__figure">
       <a class="photo-gallery__item" href="images/demo1.jpg" data-href="images/demo1.jpg"  data-title="demo1:大图设置的2种方式">
@@ -78,9 +80,9 @@
     </figure>
 
 
-    <h1>demo2</h1>
-    <p>一、缩略图设置的2种方式：（1）background-image设置（cover布局）。（2）img显示</p>
-    <p>二、缩略图url来源优先级：（ [data-thumb] 大于 img[src] ）</p>
+    <h3 class="page-h3">demo2</h3>
+    <p class="page-p">一、缩略图设置的2种方式：（1）background-image设置（cover布局）。（2）img显示</p>
+    <p class="page-p">二、缩略图url来源优先级：（ [data-thumb] 大于 img[src] ）</p>
 
     <figure class="photo-gallery__figure">
       <a class="photo-gallery__item" href="images/demo2.jpg" data-title="demo2:缩略图2种写法"  data-thumb="images/demo2-thumb.jpg">
@@ -90,9 +92,9 @@
     </figure>
 
     
-    <h1>demo3</h1>
-    <p>二、图片标题设置的2种方式：（1）设置item的title。 （2）设置item的data-title）
-    <p>一、图片标题来源优先级：（[data-title] 大于 figcaption.caption 大于 [title] ）
+    <h3 class="page-h3">demo3</h3>
+    <p class="page-p">二、图片标题设置的2种方式：（1）设置item的title。 （2）设置item的data-title）
+    <p class="page-p">一、图片标题来源优先级：（[data-title] 大于 figcaption.caption 大于 [title] ）
 
     <figure class="photo-gallery__figure">
       <a class="photo-gallery__item" href="images/demo3.jpg" data-title="demo3:标题的3种写法" title="demo3:标题的3种写法">
@@ -102,10 +104,10 @@
     </figure>
 
 
-    <h1>demo4</h1>
-    <p>纯js调用</p>
+    <h3 class="page-h3">demo4</h3>
+    <p class="page-p">纯js调用</p>
     <button type="button" id="viewBtn">点击预览图片</button>
-    <pre>createPhotoSwipe([
+    <pre class="page-pre">createPhotoSwipe([
   {
     src: "images/demo1.jpg",//大图地址
     msrc: "images/demo1-thumb.jpg",//缩略图地址
@@ -119,7 +121,7 @@
 ]);</pre>
   
 
-  <table width="1300">
+  <table class="page-table" width="1300">
     <thead>
     <tr>
       <th>参数名称</th>
@@ -216,9 +218,9 @@
       </tbody>
     </table>
 
-  <h3>返回 {object} PhotoSwipe对象</h3>
+  <h3 class="page-h3">返回 {object} PhotoSwipe对象</h3>
 
-  <h3>依赖 jquery、photoswipe</h3>
+  <h3 class="page-h3">依赖 jquery、photoswipe</h3>
   </div>
  
   <script type="text/javascript" src="libs/jquery/2.1.4/jquery.min.js"></script>
