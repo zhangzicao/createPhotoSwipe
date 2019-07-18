@@ -10,7 +10,7 @@
 ## 调用
 #### HTML配合javascript的调用方式：
 ``` html
-<div class="photo-gallery photo-gallery--responsed" data-pswp-uid="212">
+<div class="photo-gallery" data-pswp-uid="212">
     <div class="photo-gallery__figure">
       <a class="photo-gallery__item" href="images/demo1.jpg" data-thumb="images/demo1-thumb.jpg" title="demo1" data-size="1920x1038">
         <span class="photo-gallery__thumb" style="background-image:url(images/demo1-thumb.jpg);"></span>
