@@ -143,8 +143,8 @@
     // 这里可以定义参数
     options = {
       barsSize: {
-        top: 100,
-        bottom: 100
+        top: 0,
+        bottom: 0
       },
       shareButtons:[
         // { id: 'download', label: '保存图片', url: '{{raw_image_url}}', download: true }
@@ -152,7 +152,10 @@
 
       // define gallery index (for URL)
       galleryUID: option.gid,
-      tapToClose: true,
+      tapToClose: false,
+      isClickableElement: function(el){
+        return el.tagName === 'A'|| el.tagName === 'IMG';
+      },
       fullscreenEl:false,
       getThumbBoundsFn: function(index) {
         //打开画廊的boundIn动画初始图片大小和位置
@@ -172,14 +175,14 @@
             var imgWidth,imgHeight,bgWidth,bgHeight;
             if(!sizeStr){
               var img=new Image()
-              img.src=items[index].msrc; 
+              img.src=items[index].msrc;
               if(img.naturalWidth&&img.naturalWidth>0){
                 $img.data('size',img.naturalWidth+'x'+img.naturalHeight);
                 imgWidth=img.naturalWidth
-                imgHeight=img.naturalHeight 
+                imgHeight=img.naturalHeight
                 if(!items[index].w){
                   items[index].w=img.naturalWidth
-                  items[index].h=img.naturalHeight 
+                  items[index].h=img.naturalHeight
                 }
               }
               img=null;
@@ -196,7 +199,7 @@
                 bgHeight = parseInt(imgHeight*width/imgWidth,10);
                 top-=parseInt((bgHeight - height)/2);
               }
-            } 
+            }
           }
           return { x: left + pageXScroll, y: top + pageYScroll, w: width };
         }
@@ -207,7 +210,7 @@
     // PhotoSwipe opened from URL
     if (fromURL) {
       if (options.galleryPIDs) {
-        // parse real index when custom PIDs are used 
+        // parse real index when custom PIDs are used
         for (var j = 0; j < items.length; j++) {
           if (items[j].pid == index) {
             options.index = j;
@@ -234,7 +237,7 @@
     // Pass data to PhotoSwipe and initialize it
     gallery = new PhotoSwipe($pswp[0], PhotoSwipeUI_Default, items, option);
 
-    gallery.listen('gettingData', function(index, item) { 
+    gallery.listen('gettingData', function(index, item) {
       //没有宽和高时使用缩略图的宽高
       var notHasEl = typeof items[index].el=='undefined';
       if(!notHasEl){
@@ -258,11 +261,11 @@
       }
       if((notHasEl && typeof item.w=='undefined') || (!notHasEl &&!$item.data('size')) ){
         var img2=new Image()
-        img2.src=item.src; 
+        img2.src=item.src;
         if(img2.naturalWidth&&img2.naturalWidth>0){
           if(!notHasEl) $item.data('size',img2.naturalWidth+'x'+img2.naturalHeight);
           item.w=img2.naturalWidth
-          item.h=img2.naturalHeight 
+          item.h=img2.naturalHeight
           img2=null
         }else{
           img2.onload=function() {
@@ -278,11 +281,11 @@
       }
       if(!item.w){
         item.w=300
-        item.h=200 
+        item.h=200
       }
     });
 
-    gallery.listen('imageLoadComplete', function(index, item) { 
+    gallery.listen('imageLoadComplete', function(index, item) {
       //大图加载完毕时重新设置图片宽和高
       if(typeof items[index].el!=='undefined'){
         var $item = items[index].el.find(option.itemEl);
@@ -428,22 +431,22 @@
     };
 
     //返回图片的实际尺寸
-    var getImgNaturalDimensions=function(img) { 
-      var nWidth, nHeight 
-      if (img.naturalWidth) { // 现代浏览器 
-        nWidth = img.naturalWidth 
-        nHeight = img.naturalHeight 
-      } else { // IE6/7/8 
-        var imgae = new Image(); 
-        image.src = img.src; 
+    var getImgNaturalDimensions=function(img) {
+      var nWidth, nHeight
+      if (img.naturalWidth) { // 现代浏览器
+        nWidth = img.naturalWidth
+        nHeight = img.naturalHeight
+      } else { // IE6/7/8
+        var imgae = new Image();
+        image.src = img.src;
         nWidth=image.width;
         nHeight=image.height;
-      } 
-      return [nWidth, nHeight] 
+      }
+      return [nWidth, nHeight]
     };
 
     //返回图片在固定宽高的容器的缩放比例、缩放后的宽和高
-    var getScaleData=function(ctWidth,ctHeight,imgWidth,imgHeight) { 
+    var getScaleData=function(ctWidth,ctHeight,imgWidth,imgHeight) {
       if(ctWidth>=imgWidth && ctHeight>=imgHeight){
         return [1,imgWidth,imgHeight]
       }
@@ -559,4 +562,4 @@
     }));
   }
   return createPhotoSwipe;
-}); 
+});
