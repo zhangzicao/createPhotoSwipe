@@ -3,7 +3,7 @@
  * @namespace createPhotoSwipe
  * @requires jQuery,PhotoSwipe
  * @author zhangzicao
- * @version 0.3.1
+ * @version 0.4.0
  * @param {string|object} [indexEl] 可选（indexEl和items中至少要有一个），当前图片的figure容器对象或选择器，方法内部会解析dom获取画廊所有图片数据和当前index值
  * @param {array} [items] 可选（indexEl和items中至少要有一个），图廊图片的json数据。如果indexEl也存在时，这些数据会添加到解析出来的数据后面
  * @param {string} items[].src 图片地址
@@ -24,15 +24,15 @@
 (function(root,factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as anonymous module.
-    define(['jquery', 'PhotoSwipe'], factory);
+    define(['jquery', 'PhotoSwipe', 'PhotoSwipeUI_Default'], factory);
   } else if (typeof exports === 'object') {
     // Node/CommonJS.
-    module.exports = factory(require('jquery'),require('PhotoSwipe'));
+    module.exports = factory(require('jquery'),require('PhotoSwipe'),require('PhotoSwipeUI_Default'));
   } else {
     // Browser globals.
-    root.createPhotoSwipe = factory(root.jQuery, root.PhotoSwipe);
+    root.createPhotoSwipe = factory(root.jQuery, root.PhotoSwipe, root.PhotoSwipeUI_Default);
   }
-})(this,function(jquery, PhotoSwipe){
+})(this,function(jquery, PhotoSwipe, PhotoSwipeUI_Default){
   var $ = jquery;
 
   //touch
@@ -40,14 +40,17 @@
     touch:!!(('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch)
   })
 
+  var isIE8 = /msie 8\.0/i.test(window.navigator.userAgent.toLowerCase());
+  var supportTransition = supportCss3('transition')
+
   var defaultOption={
-      containerEl:".photo-gallery,[data-pswp-uid]",
-      figureEl:".photo-gallery__figure",
-      itemEl:".photo-gallery__item",
-      rotatable:true,//是否开启旋转
-      rotateAnim:true//是否开启旋转动画
-      //还支持PhotoSwipe的option配置
-    }
+    containerEl:".photo-gallery,[data-pswp-uid]",
+    figureEl:".photo-gallery__figure",
+    itemEl:".photo-gallery__item",
+    rotatable:true,//是否开启旋转
+    rotateAnim:true//是否开启旋转动画
+    //还支持PhotoSwipe的option配置
+  }
 
   function createPhotoSwipe(indexEl ,items ,option) {
     //非必选转换
@@ -138,7 +141,7 @@
       var $pswp = $(pswpHTML).appendTo('body');
     }
     var gallery,
-      options;
+        options;
 
     // 这里可以定义参数
     options = {
@@ -152,7 +155,7 @@
 
       // define gallery index (for URL)
       galleryUID: option.gid,
-      tapToClose: false,
+      tapToClose: true,
       isClickableElement: function(el){
         return el.tagName === 'A'|| el.tagName === 'IMG';
       },
@@ -362,7 +365,7 @@
         gallery.currItem.w=imgNaturalWidth;
         gallery.updateSize(true);
 
-        if(option.rotateAnim){
+        if(option.rotateAnim && supportTransition){
           $img.css({
             '-o-transform':'scale('+multiple+') rotate('+lastDeg+'deg)',
             '-ms-transform':'scale('+multiple+') rotate('+lastDeg+'deg)',
@@ -403,7 +406,7 @@
           });
         }
 
-        if(option.rotateAnim){
+        if(option.rotateAnim && supportTransition){
           $img.on('transitionend webkitTransitionEnd mozTransitionEnd oTransitionEnd',function(){
             $img.off('transitionend webkitTransitionEnd mozTransitionEnd oTransitionEnd');
             $img.removeClass('pswp__img_anim');
@@ -437,7 +440,7 @@
         nWidth = img.naturalWidth
         nHeight = img.naturalHeight
       } else { // IE6/7/8
-        var imgae = new Image();
+        var image = new Image();
         image.src = img.src;
         nWidth=image.width;
         nHeight=image.height;
@@ -457,7 +460,7 @@
     };
 
     //事件绑定
-    if(option.rotatable){
+    if(option.rotatable && !isIE8){
       if ($pswp.find('.pswp__button--rotation--left').length==0) {
         var $leftRotation=$('<button class="pswp__button pswp__button--rotation--left"></button>');
         var $rightRotation=$('<button class="pswp__button pswp__button--rotation--right"></button>');
@@ -478,14 +481,12 @@
         var currentdeg=$img.data('deg')||0;
         rotateImg(currentdeg+90);
       });
-      if($.support.touch){
-        $leftRotation.on('pswpTap',function(e) {
-          e.stopPropagation()
-        });
-        $rightRotation.on('pswpTap',function(e) {
-          e.stopPropagation()
-        });
-      }
+      $leftRotation.on('pswpTap',function(e) {
+        e.stopPropagation()
+      });
+      $rightRotation.on('pswpTap',function(e) {
+        e.stopPropagation()
+      });
     }else{
       $pswp.find('.pswp__button--rotation--left,.pswp__button--rotation--right').hide();
     }
@@ -508,7 +509,7 @@
       //src设置
       item.src = $(this).data("href") || $(this).attr("href");
       //title设置
-      item.title = $(this).data("title") || $(this).attr("title") || $figures.eq(i).find('.caption,figcaption').eq(0).text();
+      item.title = $(this).data("title") || $(this).attr("title") || $figures.eq(i).find('.caption,figcaption').eq(0).html();
       //缩略图设置
       var msrc = $(this).data("thumb") || $(this).find("img").attr('src');
       item.msrc=msrc || item.src;
@@ -532,7 +533,7 @@
   // 从url解析当前要打开的图片 (#&pid=1&gid=2)
   var photoswipeParseHash = function() {
     var hash = window.location.hash.substring(1),
-      params = {};
+        params = {};
 
     if (hash.length < 5) {
       return params;
@@ -569,5 +570,28 @@
       fromURL:true
     }));
   }
+
+  function supportCss3(style) {
+    var prefix = ['webkit', 'Moz', 'ms', 'o'],
+        i,
+        humpString = [],
+        htmlStyle = document.documentElement.style,
+        _toHumb = function (string) {
+          return string.replace(/-(\w)/g, function ($0, $1) {
+            return $1.toUpperCase();
+          });
+        };
+
+    for (var i = 0; i < prefix.length; i++)
+      humpString.push(_toHumb(prefix[i] + '-' + style));
+
+    humpString.push(_toHumb(style));
+
+    for (var j = 0; j < humpString.length; j++)
+      if (humpString[j] in htmlStyle) return true;
+
+    return false;
+  }
+
   return createPhotoSwipe;
 });
