@@ -3,7 +3,7 @@
  * @namespace createPhotoSwipe
  * @requires jQuery,PhotoSwipe
  * @author zhangzicao
- * @version 0.4.0
+ * @version 0.4.1
  * @param {string|object} [indexEl] 可选（indexEl和items中至少要有一个），当前图片的figure容器对象或选择器，方法内部会解析dom获取画廊所有图片数据和当前index值
  * @param {array} [items] 可选（indexEl和items中至少要有一个），图廊图片的json数据。如果indexEl也存在时，这些数据会添加到解析出来的数据后面
  * @param {string} items[].src 图片地址
@@ -86,7 +86,7 @@
     index=typeof option.index ==='number'? option.index: index;
 
 
-    openPhotoSwipe(index, items, $.extend({
+    return openPhotoSwipe(index, items, $.extend({
       gid: gid,
       disableAnimation:false,
       fromURL:false
@@ -495,6 +495,7 @@
     }else{
       $pswp.find('.pswp__button--share').show();
     }
+    return gallery;
   };
 
   // 解析来自DOM元素幻灯片数据（URL，标题，大小...）
